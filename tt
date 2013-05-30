@@ -1,0 +1,42 @@
+#! /bin/bash
+
+# Copyright (C) 2013 Jacob Müller
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+## USER DEFINED VARIABLES ###############################################
+
+# Path to the root directory of the local CyanogenMod source code
+cmDir=/path/to/cm/source/code
+
+#########################################################################
+
+
+# Check the processor architecture to ensure that the correct version
+# of Translation Tools is used (32Bit/64Bit)
+if [ %PROCESSOR_ARCHITECTURE% == x86 ]; then
+    # Check if Translation Tools (32Bit) are installed
+    if [ -e $cmDir/tools/TranslationTools/binary/Translation_Tools-x32 ]; then
+        nohup $cmDir/tools/TranslationTools/binary/Translation_Tools-x32 >/dev/null 2>&1&
+    else
+        echo "Translation Tools (32Bit) aren't installed or are installed in a wrong directory"
+    fi
+else
+    # Check if Translation Tools (64Bit) are installed
+    if [ -e $cmDir/tools/TranslationTools/binary/Translation_Tools-x64 ]; then
+        nohup $cmDir/tools/TranslationTools/binary/Translation_Tools-x64 >/dev/null 2>&1&
+    else
+        echo "Translation Tools (32Bit) aren't installed or are installed in a wrong directory"
+    fi
+fi
