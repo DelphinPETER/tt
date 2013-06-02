@@ -23,20 +23,23 @@ cmDir=/path/to/cm/source/code
 #########################################################################
 
 
-# Check the processor architecture to ensure that the correct version
-# of Translation Tools is used (32Bit/64Bit)
+# Get processor architecture
 if [ %PROCESSOR_ARCHITECTURE% == x86 ]; then
-    # Check if Translation Tools (32Bit) are installed
-    if [ -e $cmDir/tools/TranslationTools/binary/Translation_Tools-x32 ]; then
-        nohup $cmDir/tools/TranslationTools/binary/Translation_Tools-x32 >/dev/null 2>&1&
-    else
-        echo "Translation Tools (32Bit) aren't installed or are installed in a wrong directory"
-    fi
+    cpuArch=32
 else
-    # Check if Translation Tools (64Bit) are installed
-    if [ -e $cmDir/tools/TranslationTools/binary/Translation_Tools-x64 ]; then
-        nohup $cmDir/tools/TranslationTools/binary/Translation_Tools-x64 >/dev/null 2>&1&
-    else
-        echo "Translation Tools (32Bit) aren't installed or are installed in a wrong directory"
-    fi
+    cpuArch=64
+fi
+
+# Get Ubuntu version
+. /etc/lsb-release
+ubuntuVers=$DISTRIB_RELEASE
+
+# Build path to Translation Tools binary
+ttPath=${cmDir}/tools/TranslationTools/binary/translationtools_${ubuntuVers}_x${cpuArch}
+
+# Check if Translation Tools are installed
+if [ -e $ttPath ]; then
+    nohup $ttPath >/dev/null 2>&1&
+else
+    echo "Translation Tools aren't installed or are installed in a wrong directory"
 fi
